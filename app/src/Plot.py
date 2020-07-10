@@ -15,7 +15,7 @@ def serie(data, timeWindow):
     plt.ylabel('Requisições')
     plt.show()
 
-def zoom(data, wsd, knn, svm, timeWindow):
+def zoom(data, reWPredicted, cReWPredicted, knn, svm, timeWindow):
     size = int(len(data) * 0.67)
 
     tmp = data[size+1:len(data), 0]
@@ -29,7 +29,8 @@ def zoom(data, wsd, knn, svm, timeWindow):
     y = data[size+1:len(data), 1].astype(int)
 
     plt.plot(x[100: 150],   y[100: 150], '-', color='black' ,label='Atual', linewidth=2)
-    plt.plot(x[100: 150], wsd[100: 150], '-', color='blue' ,label='CReW')
+    plt.plot(x[100: 150], reWPredicted[100: 150], '-', color='olive' ,label='ReW')
+    plt.plot(x[100: 150], cReWPredicted[100: 150], '-', color='blue' ,label='CReW')
     plt.plot(x[100: 150], knn[100: 150], '-', color='purple' ,label='KNN')
     plt.plot(x[100: 150], svm[100: 150], '-', color='green' ,label='LinearSVM')
 

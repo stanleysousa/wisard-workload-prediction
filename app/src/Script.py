@@ -9,14 +9,15 @@ augLogFile = "../data/in/access_log_Aug95"
 #Parser.proccessLog(julLogFile, augLogFile)
 
 #Load data
-timeWindow = 30
+timeWindow = 60
 batchSize = 10
 file = "../data/out/data_"+str(timeWindow)+"min.csv"
 data = np.loadtxt(file, dtype=str, delimiter=",", skiprows=1)
 
-wsdPredicted = Processor.runWSD(data, timeWindow, batchSize)
+reWPredicted = Processor.runReW(data, timeWindow, batchSize)
+cReWPredicted = Processor.runCReW(data, timeWindow, batchSize)
 knnPredicted = Processor.runKNN(file, timeWindow, batchSize)
 svmPredicted = Processor.runSVM(data, timeWindow, batchSize)
 
-Plot.zoom(data, wsdPredicted[0], knnPredicted[0], svmPredicted[0], timeWindow)
+Plot.zoom(data, reWPredicted[0], cReWPredicted[0],knnPredicted[0], svmPredicted[0], timeWindow)
 

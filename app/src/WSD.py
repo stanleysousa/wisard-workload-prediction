@@ -18,7 +18,7 @@ def _preProccess(data, timeWindow):
         x[i] = termo.transform([x[i]])
     return y, x
 
-def run(data, timeWindow):
+def runReW(data, timeWindow):
     y, x = _preProccess(data, timeWindow)
 
     size = int(len(data) * 0.67)
@@ -27,7 +27,30 @@ def run(data, timeWindow):
     yTest = y[size+1:len(data)]
     xTest = x[size+1:len(data)]
 
-    #model = wp.RegressionWisard(10, completeAddressing=False, orderedMapping=False, mean=wp.SimpleMean(), minZero=0, minOne=0)
+    model = wp.RegressionWisard(10, completeAddressing=False, orderedMapping=False, mean=wp.SimpleMean(), minZero=0, minOne=0)
+    tStart = time.time()
+    for i in range(len(xTrain)):
+        model.train(xTrain[i], yTrain[i])
+    ttime = time.time()-tStart
+
+    predicted = []
+    cStart = time.time()
+    for i in range(len(xTest)):
+        predicted.append(model.predict(xTest[i]))
+    ctime = time.time()-cStart
+
+    actual = yTest
+    return actual, predicted, ttime, ctime
+
+def runCReW(data, timeWindow):
+    y, x = _preProccess(data, timeWindow)
+
+    size = int(len(data) * 0.67)
+    yTrain = y[:size]
+    xTrain = x[:size]
+    yTest = y[size+1:len(data)]
+    xTest = x[size+1:len(data)]
+
     model = wp.ClusRegressionWisard(10, 0, 5, 75)
     tStart = time.time()
     for i in range(len(xTrain)):
